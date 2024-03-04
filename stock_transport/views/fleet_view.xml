@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<record id="fleet_vehicle_model_category_view_tree_custom" model="ir.ui.view">
+    <field name="name">fleet.vehicle.model.category.view.tree.custom</field>
+    <field name="model">fleet.vehicle.model.category</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_model_category_view_tree"/>
+    <field name="arch" type="xml">
+        <xpath expr="//tree" position="inside">
+            <!-- Add max weight field -->
+            <field name="max_weight"/>
+
+            <!-- Add max volume field -->
+            <field name="max_volume"/>
+        </xpath>
+    </field>
+</record>
+</odoo>
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+        <record id="view_docks_stock_form" model="ir.ui.view">
+            <field name="name">docks.stock.form</field>
+            <field name="model">docks.stock</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="docks" string="Docks"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_docks_stock_form" model="ir.actions.act_window">
+            <field name="name">Docks Stock</field>
+            <field name="res_model">docks.stock</field>
+            <field name="view_mode">form</field>
+        </record>
+
+    
+</odoo> -->
