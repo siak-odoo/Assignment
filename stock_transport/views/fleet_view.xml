@@ -16,27 +16,3 @@
     </field>
 </record>
 </odoo>
-
-<!-- <?xml version="1.0" encoding="utf-8"?>
-
-<odoo>
-        <record id="view_docks_stock_form" model="ir.ui.view">
-            <field name="name">docks.stock.form</field>
-            <field name="model">docks.stock</field>
-            <field name="arch" type="xml">
-                <form>
-                    <group>
-                        <field name="docks" string="Docks"/>
-                    </group>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_docks_stock_form" model="ir.actions.act_window">
-            <field name="name">Docks Stock</field>
-            <field name="res_model">docks.stock</field>
-            <field name="view_mode">form</field>
-        </record>
-
-    
-</odoo> -->

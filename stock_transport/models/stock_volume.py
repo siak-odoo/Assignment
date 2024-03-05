@@ -15,3 +15,5 @@ class StockPicking(models.Model):
             vol += product.volume
 
         self.volume = vol
+
+    

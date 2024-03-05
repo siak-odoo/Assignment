@@ -13,7 +13,6 @@
                     <field name="vehicle_category_ids" string="Vehicle Category"/>
                     <field name="computed_weight" invisible="not vehicle_category_ids" widget="progressbar"/>
                     <field name="computed_volume" invisible="not vehicle_category_ids" widget="progressbar"/>
-                    
                 </xpath>
             </data>
         </field>
@@ -29,4 +28,22 @@
             </xpath>
         </field>
     </record>
+
+    <record id="stock_picking_batch_graph" model="ir.ui.view">
+        <field name="name">stock.picking.batch.graph.view</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <graph string="Transfers">
+                <field name="scheduled_date"/>
+                <field name="vehicle_category_ids"/>
+            </graph>
+        </field>
+    </record>
+
+  <record id="stock_picking_batch" model="ir.actions.act_window.view">
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="stock_transport.stock_picking_batch_graph"/>
+        <field name="act_window_id" ref="stock_picking_batch.stock_picking_batch_action"/>
+    </record>
+
 </odoo>

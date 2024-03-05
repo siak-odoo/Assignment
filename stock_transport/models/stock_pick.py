@@ -34,22 +34,32 @@ class StockPick(models.Model):
     )
 
     @api.depends('vehicle_category_ids', 'vehicle_category_ids.max_weight', 'vehicle_category_ids.max_volume')
-    def _compute_weight_volume(self):
-        for record in self:
-            max_weight = record.vehicle_category_ids.max_weight
-            max_volume = record.vehicle_category_ids.max_volume
+    def _compute_weight_volume(self):      
+        record_ids = []
 
-            if max_weight and max_volume:
-                total_weight = max_weight 
-                total_volume = max_volume
+        w = 0
+        v = 0
 
-                record.computed_weight = (total_weight / max_weight) * 100
-                record.computed_volume = (total_volume / max_volume) * 100
-            else:
-                record.computed_weight = 0
-                record.computed_volume = 0
+        for record_id in self.move_line_ids:
+            record_ids.append(record_id.id)
 
+        move_lines = self.env["stock.move.line"].browse(record_ids)
+        for record in move_lines:
+            w += record.product_id.weight * record.quantity
+            v += record.product_id.volume * record.quantity
+        self.computed_weight= w / self.vehicle_category_ids.max_weight if self.vehicle_category_ids.max_weight != 0 else 0
+        self.computed_volume = v/ self.vehicle_category_ids.max_volume if self.vehicle_category_ids.max_volume != 0 else 0
+
+        if self.computed_weight > 100:
+            self.computed_weight = 100
+        
+        if self.computed_volume > 100:
+            self.computed_volume = 100
+
+
+               
 
 
     
-    
+
+
