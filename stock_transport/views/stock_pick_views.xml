@@ -40,10 +40,23 @@
         </field>
     </record>
 
-  <record id="stock_picking_batch" model="ir.actions.act_window.view">
-        <field name="view_mode">graph</field>
-        <field name="view_id" ref="stock_transport.stock_picking_batch_graph"/>
-        <field name="act_window_id" ref="stock_picking_batch.stock_picking_batch_action"/>
+    <record id="view_stock_picking_batch_gantt" model="ir.ui.view">
+        <field name="name">stock.picking.batch.gantt</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <gantt date_start="scheduled_date"
+            date_stop="scheduled_date"
+            default_scale="week"
+            scales="day,week,month,year"
+            string="Batch Gantt View"
+            pill_label = "True"
+            default_group_by="docks,vehicle">
+        </gantt>
+        </field>
+    </record>
+    <record id="stock_picking_batch.stock_picking_batch_action" model="ir.actions.act_window">
+        <field name="view_mode">tree,kanban,form,graph,gantt</field>
     </record>
 
 </odoo>

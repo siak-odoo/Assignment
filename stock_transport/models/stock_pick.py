@@ -16,7 +16,7 @@ class StockPick(models.Model):
         ondelete='restrict',  # Third-party provider, adjust if needed
     )
     vehicle_category_ids = fields.Many2one('fleet.vehicle.model.category', string='Vehicle Category')
-
+    
     computed_weight = fields.Float(
         string='Computed Weight',
         compute='_compute_weight_volume',
@@ -32,34 +32,20 @@ class StockPick(models.Model):
         readonly=True,
         widget='progress',
     )
-
     @api.depends('vehicle_category_ids', 'vehicle_category_ids.max_weight', 'vehicle_category_ids.max_volume')
-    def _compute_weight_volume(self):      
-        record_ids = []
+    def _compute_weight_volume(self):
+        for record in self:
+            w = sum(move_line.product_id.weight * move_line.quantity for move_line in record.move_line_ids)
+            v = sum(move_line.product_id.volume * move_line.quantity for move_line in record.move_line_ids)
 
-        w = 0
-        v = 0
+            max_volume = record.vehicle_category_ids.max_volume or 1
+            max_weight = record.vehicle_category_ids.max_weight or 1
 
-        for record_id in self.move_line_ids:
-            record_ids.append(record_id.id)
-
-        move_lines = self.env["stock.move.line"].browse(record_ids)
-        for record in move_lines:
-            w += record.product_id.weight * record.quantity
-            v += record.product_id.volume * record.quantity
-        self.computed_weight= w / self.vehicle_category_ids.max_weight if self.vehicle_category_ids.max_weight != 0 else 0
-        self.computed_volume = v/ self.vehicle_category_ids.max_volume if self.vehicle_category_ids.max_volume != 0 else 0
-
-        if self.computed_weight > 100:
-            self.computed_weight = 100
-        
-        if self.computed_volume > 100:
-            self.computed_volume = 100
+            record.computed_weight = min(w / max_weight * 100, 100)
+            record.computed_volume = min(v / max_volume * 100, 100)
 
 
-               
 
-
+      
     
-
-
+    
