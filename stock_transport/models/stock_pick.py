@@ -14,11 +14,14 @@ class StockPick(models.Model):
         required=False,
     )
     vehicle_category_ids = fields.Many2one('fleet.vehicle.model.category', string='Vehicle Category')
-
+    display_name = fields.Char(compute="_compute_total",store=True,string="Name")
     computed_weight = fields.Float(
         string='Computed Weight',
         compute='_compute_weight_volume',
         store=True,
+    )
+    total_weight = fields.Float(
+        "weight",compute='_compute_weight_volume',
     )
 
     computed_volume = fields.Float(
@@ -26,6 +29,11 @@ class StockPick(models.Model):
         compute='_compute_weight_volume',
         store=True,
     )
+    
+    total_volume = fields.Float(
+        "volume",compute='_compute_weight_volume',
+    )
+
     transfers = fields.Float(compute="_compute_transfer",string="Transfer",store=True)
     lines = fields.Float(compute="_compute_lines",string="Lines",store=True)
 
@@ -37,7 +45,8 @@ class StockPick(models.Model):
 
             max_volume = record.vehicle_category_ids.max_volume or 1
             max_weight = record.vehicle_category_ids.max_weight or 1
-
+            record.total_weight=w
+            record.total_volume=v
             record.computed_weight = min(w / max_weight * 100, 100)
             record.computed_volume = min(v / max_volume * 100, 100)
     
@@ -50,9 +59,7 @@ class StockPick(models.Model):
     def _compute_lines(self):
         for record in self:
              record.lines = len(record.move_line_ids)
-            
-
-
+    
 
       
     

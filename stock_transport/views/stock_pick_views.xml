@@ -11,8 +11,16 @@
                     <field name="docks_id"/>
                     <field name="vehicle" placeholder="e.g. truck"/>
                     <field name="vehicle_category_ids" string="Vehicle Category"  placeholder="e.g. semi-truck"/>
-                    <field name="computed_weight" invisible="not vehicle_category_ids" widget="progressbar" string="weight 140" />
-                    <field name="computed_volume" invisible="not vehicle_category_ids" widget="progressbar" string="volume 110" />
+                <label for='total_weight' string='Weight'/>
+                <div class="o_row">
+                    <field name='total_weight'/>
+                    <field name='computed_weight' class='oe_inline' widget='progressbar' invisible='not vehicle_category_ids'/>
+                </div>
+                <label for='total_volume' string='Volume'/>
+                <div class="o_row">
+                <field name='total_volume'/>
+                <field name='computed_volume' class='oe_inline' widget='progressbar' invisible='not vehicle_category_ids'/>
+            </div>
                 </xpath>
             </data>
         </field>
