@@ -8,11 +8,11 @@
         <field name="arch" type="xml">
             <data>
                 <xpath expr="//field[@name='scheduled_date']" position="after">
-                    <field name="docks"/>
-                    <field name="vehicle"/>
-                    <field name="vehicle_category_ids" string="Vehicle Category"/>
-                    <field name="computed_weight" invisible="not vehicle_category_ids" widget="progressbar"/>
-                    <field name="computed_volume" invisible="not vehicle_category_ids" widget="progressbar"/>
+                    <field name="docks_id"/>
+                    <field name="vehicle" placeholder="e.g. truck"/>
+                    <field name="vehicle_category_ids" string="Vehicle Category"  placeholder="e.g. semi-truck"/>
+                    <field name="computed_weight" invisible="not vehicle_category_ids" widget="progressbar" string="weight 140" />
+                    <field name="computed_volume" invisible="not vehicle_category_ids" widget="progressbar" string="volume 110" />
                 </xpath>
             </data>
         </field>
@@ -34,7 +34,7 @@
         <field name="model">stock.picking.batch</field>
         <field name="arch" type="xml">
             <graph string="Transfers">
-                <field name="scheduled_date"/>
+                <field name="scheduled_date" interval="day"/>
                 <field name="vehicle_category_ids"/>
             </graph>
         </field>
@@ -49,14 +49,26 @@
             date_stop="scheduled_date"
             default_scale="week"
             scales="day,week,month,year"
-            string="Batch Gantt View"
+            string="schedule"
+            decoration-info="state in ['draft']"
             pill_label = "True"
-            default_group_by="docks,vehicle">
+            default_group_by="docks_id,vehicle">
+            <field name="state"/>
+            <field name="vehicle_category_ids"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                            
         </gantt>
         </field>
     </record>
-    <record id="stock_picking_batch.stock_picking_batch_action" model="ir.actions.act_window">
-        <field name="view_mode">tree,kanban,form,graph,gantt</field>
+
+    <record id="stock_picking_batch_graph_action" model="ir.actions.act_window.view">
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="stock_transport.stock_picking_batch_graph"/>
+        <field name="act_window_id" ref="stock_picking_batch.stock_picking_batch_action"/>
+    </record>
+
+    <record id="stock_picking_batch_gantt_action" model="ir.actions.act_window.view">
+        <field name="view_mode">gantt</field>
+        <field name="view_id" ref="stock_transport.view_stock_picking_batch_gantt"/>
+        <field name="act_window_id" ref="stock_picking_batch.stock_picking_batch_action"/>
     </record>
 
 </odoo>
