@@ -14,7 +14,6 @@ class StockPick(models.Model):
         required=False,
     )
     vehicle_category_ids = fields.Many2one('fleet.vehicle.model.category', string='Vehicle Category')
-    display_name = fields.Char(compute="_compute_total",store=True,string="Name")
     computed_weight = fields.Float(
         string='Computed Weight',
         compute='_compute_weight_volume',

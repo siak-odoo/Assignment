@@ -62,7 +62,9 @@
             pill_label = "True"
             default_group_by="docks_id,vehicle">
             <field name="state"/>
-            <field name="vehicle_category_ids"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            <field name="total_weight"/>
+            <field name="vehicle"/>
+            <field name="vehicle_category_ids"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                           -->
         </gantt>
         </field>
     </record>
